@@ -3,21 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>FRIEND FINDER | Survey</title>
+	<!-- Bootstrap and jquery-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<!-- Chosen -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+	 <!-- Google Front -->
 	<link href="https://fonts.googleapis.com/css?family=Raleway:300,800" rel="stylesheet">
+	<!-- CSS -->
 	<link rel="stylesheet" type="text/css" href="./style.css"/>
 </head>
 
 <body>
+	<!-- Header -->
 	<header>
   		<h1 class="text-center">FRIEND FINDER</h1>
-  		<p class="text-center">Take the survey to find your match!</p>
+  		<p class="text-center">Take the questionare to find your match!</p>
 	</header>
 	<br>
+	<!-- Servey -->
 	<div class="container survey">
 		<form class="col-12">
 			<div class="form-group">
@@ -166,7 +172,7 @@
 	</div>
 
 	<script type="text/javascript">
-		// configures the Chosen plugin for grabbing values of the select options
+		// Configures the Chosen plugin to grab values of the select options
 		var config = {
             ".option-select": {},
             ".option-select-deselect": { allow_single_deselect: true },
@@ -177,10 +183,10 @@
         for (var selector in config) {
             $(selector).chosen(config[selector]);
         }
-        // grabs the form inputs
+        // Grabs the form inputs
         $("#submit").on("click", function(event) {
         	event.preventDefault();
-        	// form validation function
+        	
         	function validateForm() {
         		var isValid = true;
         		$(".form-control").each(function() {
@@ -195,9 +201,9 @@
         		});
         		return isValid;
         	}
-        	// if the survey is complete with no empty fields
+        	// When the survey is complete
         	if (validateForm()) {
-        		// grabs the values to create a new friend object
+        		// Creates a new friend object
         		var userData = {
         			name: $("#name").val().trim(),
         			photo: $("#photo").val().trim(),
@@ -214,19 +220,19 @@
 			            $("#q10").val()
         			]
         		};
-        		// ajax post sends the data to the friends api
+        		// Sends the data to the friends api
         		$.post("/api/friends", userData, function(data) {
         			console.log(data);
         			// grabs the result from the ajax post so that the best match's name and photo are displayed
         			$("#match-name").text(data.name);
         			$("#match-img").attr("src", data.photo);
-        			// displays the modal with the best match
+        			// Displays the best match
         			$("#results-modal").modal("toggle");
         		});
         	} else {
         		alert("Please complete the survey.");
         	}
-        	// clears the user inputs
+        	// Clears the form
 			$(".form-control").val("");
 			$(".chosen-select").val("default");
 		});
